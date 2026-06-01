@@ -58,14 +58,14 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 
 **文件路径：** `C:/Users/irisding/Downloads/my_ccs_weekly_report_{send_date}.html`
 
-> `{send_date}` 为发送日期（即周一日期，格式 YYYYMMDD），而非周期开始日期。例如报告周期 2026-05-25~05-31，发送日 2026-06-01，文件名为 `my_ccs_weekly_report_20260601.html`。
+> `{send_date}` 为发送日期（即周一日期，格式 YYYYMMDD），而非周期开始日期。例如报告周期 2026-05-25~05-31，发送日 2026-06-01，文件名为 `my_ccs_weekly_report_20260602.html`。
 
 ### HTML 报告结构
 
 ```
 [Header]  MY CCS Weekly Report - Irisding | {日期范围} | Week {N}
-[Compare] WoW 对比：总跟进量 / 总有效跟进量 / 总PC
-[Table]   团队 & 个人业绩数据（3组列头）
+[Compare] WoW 对比：总跟进量 / 总有效跟进量 / 总PC / Q2累计PC（共4张卡片）
+[Table]   团队 & 个人业绩数据（3组列头，跟进量组含Q2 PC列）
 [Chart]   团队近6周转化率趋势（6条折线，节点标注数值）
 [Section] 二、团队运营（出勤情况 / 培训情况 / 招聘进展）
 [Section] 三、AI 应用（使用情况 / 应用计划）
@@ -78,9 +78,20 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 **3组列头：**
 | 组 | 列 |
 |---|---|
-| 跟进量 | 总跟进量 → 有效跟进量 → 总PC（橙色高亮） |
-| 新 Leads 转化率 | 有效跟进率 → **分配转化率** → 有效跟进转化率 |
-| 存量 Leads 转化率 | 有效跟进率 → **分配转化率** → 有效跟进转化率 |
+| 跟进量（G1，colspan=4）| 总跟进量 → 有效跟进量 → 总PC（橙色 `.pc`）→ **Q2 PC（紫色 `.q2pc`，`color:#7c3aed`）** |
+| 新 Leads 转化率（G2）| 有效跟进率 → **分配转化率** → 有效跟进转化率 |
+| 存量 Leads 转化率（G3）| 有效跟进率 → **分配转化率** → 有效跟进转化率 |
+
+**Q2 PC 说明：**
+- 数据来源：来源A，额外调用 `fetch_data.py --start 20260401 --end {本季末YYYYMMDD}`
+- `intervened_transferred_num` 对应 Q2 累计 PC（2026-04-01 ~ 季末最后一天）
+- Compare Strip 第4卡片文字：`Q2 累计 PC`，副文字：`2026-04-01 ~ {MM-DD}`，颜色 `#7c3aed`，无WoW箭头
+- 表格中 Q2 PC 列不参与最高/最低高亮逻辑（只高亮最高/最低，其余保持紫色）
+
+**CSS 列区域（Q2 PC列加入G1后）：**
+- G1（浅蓝）：`td:nth-child(2~5)` → G1 分隔线在 `td:nth-child(5)`
+- G2（浅绿）：`td:nth-child(6~8)` → G2 分隔线在 `td:nth-child(8)`
+- G3（浅橙）：`td:nth-child(9~11)`
 
 **最高/最低高亮（文字颜色，无背景填充）：**
 - 最高值：`color: #00c853`（亮绿）
@@ -101,30 +112,52 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 
 ---
 
-## 发送飞书（可选）
+## 发布 GitHub Pages + 发送飞书卡片（可选）
 
-HTML 文件生成后，询问用户："HTML 周报已生成，是否同步发送飞书群消息预览版？"
+HTML 文件生成后，询问用户："HTML 周报已生成，是否同步推送到 GitHub Pages 并发送飞书通知？"
 
-若确认，展示文字格式预览，调用 `lark-im` skill 发送到指定飞书群：
+若确认，执行以下两步：
 
+### 第一步：推送到 GitHub Pages
+
+```bash
+# 复制文件到 repo（文件名用 send_date 格式）
+cp C:/Users/irisding/Downloads/my_ccs_weekly_report_{send_date}.html \
+   C:/Users/irisding/MY-CCS-weekly-report/my_ccs_weekly_report_{send_date}.html
+
+# 更新 index.html 重定向
+# 内容：<meta http-equiv="refresh" content="0; url=my_ccs_weekly_report_{send_date}.html">
+
+cd C:/Users/irisding/MY-CCS-weekly-report
+git add my_ccs_weekly_report_{send_date}.html index.html
+git commit -m "add weekly report {send_date}"
+git push origin main
 ```
-📊 MY CCS Weekly Report - Irisding｜{开始日期} ~ {结束日期}
 
-一、团队业绩
-{跟进量及转化率摘要}
+**GitHub Pages 配置：**
+- Repo 本地路径：`C:/Users/irisding/MY-CCS-weekly-report/`
+- GitHub Pages URL：`https://irisding001.github.io/MY-CCS-Weekly-report-/`
+- 推送后访问：`https://irisding001.github.io/MY-CCS-Weekly-report-/my_ccs_weekly_report_{send_date}.html`
 
-二、团队运营
-【出勤情况】{内容}
-【培训情况】{内容}
-【招聘进展】{内容}
+> ⚠️ 若 `git push` 失败（non-fast-forward），先执行 `git pull --rebase origin main` 再 push。
 
-三、AI 应用
-【AI 工具使用情况】{内容}
-【AI 应用计划】{内容}
+### 第二步：发送飞书交互卡片
 
-四、下周计划
-{内容}
+使用 `lark-im` skill（`--as bot --profile cli_aa9ebc6861e55bc1`）发送 interactive card：
+
+```bash
+lark-cli im +messages-send \
+  --user-id ou_65c43706b75eeb31b763b24bd6b39d31 \
+  --msg-type interactive \
+  --content '{"config":{"wide_screen_mode":true},"header":{"title":{"tag":"plain_text","content":"📊 MY CCS Weekly Report 已更新 | {MM-DD} ~ {MM-DD}"},"template":"blue"},"elements":[{"tag":"action","actions":[{"tag":"button","text":{"tag":"plain_text","content":"点击查看完整报告"},"type":"primary","url":"https://irisding001.github.io/MY-CCS-Weekly-report-/my_ccs_weekly_report_{send_date}.html"}]}]}' \
+  --as bot --profile cli_aa9ebc6861e55bc1
 ```
+
+**关键参数：**
+- `open_id`：`ou_65c43706b75eeb31b763b24bd6b39d31`（Irisding 本人）
+- `profile`：`cli_aa9ebc6861e55bc1`（MY CCS app，注意不是 `my-ccs`）
+- 卡片格式：**必须用 v1 格式**（含 `config`+`header`+`elements`），**不能用 schema v2**（v2 不支持 `action` tag，报错 200861）
+- 按钮 URL 指向具体的带文件名的页面，不用 index.html 根路径
 
 ---
 
@@ -135,3 +168,21 @@ HTML 文件生成后，询问用户："HTML 周报已生成，是否同步发送
 - 日期范围默认使用上周 Mon~Sun（周一到周日）。
 - HTML 文件参考 US CCS 格式（白底、蓝色渐变 Header、响应式布局，max-width: 1020px）。
 - 此 skill 可被其他 skill 嵌入调用，调用时直接从板块一开始执行。
+
+## 启动时自动设置定时提醒
+
+每次此 skill 被调用时，**必须**用 CronCreate 注册以下定时任务（若已存在同类任务可跳过）：
+
+```
+每周日 20:00 发送飞书 Cookie 提醒：
+- cron: "0 20 * * 0"
+- recurring: true
+- user-id: ou_65c43706b75eeb31b763b24bd6b39d31
+- 消息内容：
+  ⏰ 明天要生成 MY CCS 周报，请提前准备好以下认证信息：
+  1. EGG_SESS + csrfToken（来自 mycm.futuoa.com）
+  2. uIdToken（来自 us.data.futuoa.com）
+  Cookie 有效后直接发给 Claude 开始生成即可。
+```
+
+> 该任务为 session-only，7天后自动过期，每次打开 skill 时重新注册以保持持续生效。
