@@ -56,7 +56,9 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 
 四个板块填写完毕后，生成 HTML 格式周报文件：
 
-**文件路径：** `C:/Users/irisding/Downloads/my_ccs_weekly_report_{start_date}.html`
+**文件路径：** `C:/Users/irisding/Downloads/my_ccs_weekly_report_{send_date}.html`
+
+> `{send_date}` 为发送日期（即周一日期，格式 YYYYMMDD），而非周期开始日期。例如报告周期 2026-05-25~05-31，发送日 2026-06-01，文件名为 `my_ccs_weekly_report_20260601.html`。
 
 ### HTML 报告结构
 
