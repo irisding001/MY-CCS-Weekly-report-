@@ -45,6 +45,23 @@ tr.team td{background:#fafbff;font-weight:700;border-top:2px solid #d0daff;borde
 .lo{color:#e53e3e;font-weight:700}
 .na{color:#bbb}
 
+/* column group tints */
+/* G1 跟进量 — light blue */
+tbody td:nth-child(2),tbody td:nth-child(3),tbody td:nth-child(4){background:#f0f4ff}
+tr.team td:nth-child(2),tr.team td:nth-child(3),tr.team td:nth-child(4){background:#e2eaff}
+thead tr:nth-child(2) th:nth-child(1),thead tr:nth-child(2) th:nth-child(2),thead tr:nth-child(2) th:nth-child(3){background:#e2eaff!important;border-bottom:2px solid #97b3ff}
+/* G2 新 Leads — light green */
+tbody td:nth-child(5),tbody td:nth-child(6),tbody td:nth-child(7){background:#f0fdf6}
+tr.team td:nth-child(5),tr.team td:nth-child(6),tr.team td:nth-child(7){background:#d9f5e9}
+thead tr:nth-child(2) th:nth-child(4),thead tr:nth-child(2) th:nth-child(5),thead tr:nth-child(2) th:nth-child(6){background:#d9f5e9!important;border-bottom:2px solid #7dd9ac}
+/* G3 存量 Leads — light amber */
+tbody td:nth-child(8),tbody td:nth-child(9),tbody td:nth-child(10){background:#fff8f0}
+tr.team td:nth-child(8),tr.team td:nth-child(9),tr.team td:nth-child(10){background:#ffe9d0}
+thead tr:nth-child(2) th:nth-child(7),thead tr:nth-child(2) th:nth-child(8),thead tr:nth-child(2) th:nth-child(9){background:#ffe9d0!important;border-bottom:2px solid #f5b87a}
+/* group separators */
+tbody td:nth-child(4),tr.team td:nth-child(4),thead tr:nth-child(2) th:nth-child(3){border-right:2px solid #c8d8ff}
+tbody td:nth-child(7),tr.team td:nth-child(7),thead tr:nth-child(2) th:nth-child(6){border-right:2px solid #7dd9ac}
+
 /* trend chart */
 .chart-wrap{position:relative;height:295px}
 
@@ -111,10 +128,10 @@ tr.team td{background:#fafbff;font-weight:700;border-top:2px solid #d0daff;borde
           <th class="sh">有效跟进量</th>
           <th class="sh">总 PC</th>
           <th class="sh">有效跟进率</th>
-          <th class="sh" style="color:#1456F0">分配转化率</th>
+          <th class="sh">分配转化率</th>
           <th class="sh">有效跟进转化率</th>
           <th class="sh">有效跟进率</th>
-          <th class="sh" style="color:#1456F0">分配转化率</th>
+          <th class="sh">分配转化率</th>
           <th class="sh">有效跟进转化率</th>
         </tr>
       </thead>
@@ -192,16 +209,18 @@ tr.team td{background:#fafbff;font-weight:700;border-top:2px solid #d0daff;borde
 <!-- ── Section 2: Team Operations ── -->
 <div class="card">
   <div class="sec-title">二、团队运营</div>
-  <div class="blk-label">团队管理</div>
+  <div class="blk-label">出勤情况</div>
   <div class="blk-body">
     <ul>
       <li>@vaashini 休假 1 周</li>
       <li>@mikilee &nbsp;5.29 休假 0.5 天</li>
       <li>@alexfoong &nbsp;5.29 休假 1 天</li>
       <li>@irisding &nbsp;本周深圳出差，5.29 休假 1 天</li>
-      <li>培训情况：完成 CSRC 公告回应话术培训</li>
     </ul>
   </div>
+  <div class="divider"></div>
+  <div class="blk-label">培训情况</div>
+  <div class="blk-body">完成 CSRC 公告回应话术培训</div>
   <div class="divider"></div>
   <div class="blk-label">招聘进展</div>
   <div class="blk-body">暂无招聘计划</div>
