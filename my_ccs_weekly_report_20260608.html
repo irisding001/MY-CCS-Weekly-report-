@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY CCS Weekly Report | Jun 01 ~ Jun 07, 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a202c; }
+.container { max-width: 1020px; margin: 0 auto; padding: 24px 16px; }
+
+/* Header */
+.header { background: linear-gradient(135deg, #1a56db 0%, #0e3fa8 100%); border-radius: 12px; padding: 28px 32px; color: #fff; margin-bottom: 20px; }
+.header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.3px; }
+.header .meta { margin-top: 8px; font-size: 14px; opacity: 0.88; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.badge { background: rgba(255,255,255,0.22); border-radius: 20px; padding: 3px 14px; font-size: 12px; font-weight: 600; }
+
+/* Compare Strip */
+.compare-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.card { background: #fff; border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+.card .label { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+.card .value { font-size: 28px; font-weight: 800; color: #1a202c; line-height: 1; }
+.card .sub { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+.card .wow { font-size: 12px; font-weight: 700; margin-top: 6px; }
+.wow.down { color: #e53e3e; }
+.wow.up   { color: #00c853; }
+.card.q2 .value { color: #7c3aed; }
+
+/* Section card */
+.section-card { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 20px; overflow-x: auto; }
+.section-title { font-size: 15px; font-weight: 700; color: #1a202c; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; width: 4px; height: 16px; background: #1a56db; border-radius: 2px; flex-shrink: 0; }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 800px; }
+th { padding: 7px 10px; font-weight: 700; font-size: 11px; color: #475569; text-align: center; white-space: nowrap; border-bottom: 2px solid #e2e8f0; }
+td { padding: 9px 10px; border-bottom: 1px solid #f1f5f9; text-align: center; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td:first-child, th.col-name { text-align: left; padding-left: 14px; font-weight: 500; }
+tr.team-row td { font-weight: 700; background: #dbeafe !important; }
+tr.team-row td.pc-bg   { background: rgba(254,215,79,0.45) !important; }
+tr.team-row td.q2pc-bg { background: rgba(254,215,79,0.38) !important; }
+tbody tr:not(.team-row):hover td { background: #f8faff; }
+
+/* G1 blue */
+th.g1 { background: rgba(219,234,254,0.6); }
+td.g1 { background: rgba(219,234,254,0.25); }
+td.g1-sep { background: rgba(219,234,254,0.25); border-right: 2px solid #bfdbfe; }
+
+/* G2 green */
+th.g2 { background: rgba(209,250,229,0.6); }
+td.g2 { background: rgba(209,250,229,0.2); }
+td.g2-sep { background: rgba(209,250,229,0.2); border-right: 2px solid #a7f3d0; }
+
+/* G3 orange */
+th.g3 { background: rgba(254,243,199,0.6); }
+td.g3 { background: rgba(254,243,199,0.2); }
+
+/* Value highlights */
+.pc      { color: #f97316; font-weight: 600; }
+.q2pc    { color: #7c3aed; font-weight: 600; }
+.hi      { color: #00c853 !important; font-weight: 700; }
+.lo      { color: #e53e3e !important; font-weight: 700; }
+.pc-bg   { background: rgba(254,215,79,0.28) !important; }
+.q2pc-bg { background: rgba(254,215,79,0.22) !important; }
+
+/* Chart */
+.chart-wrap { height: 320px; }
+
+/* Text sections */
+.text-section { background: #fff; border-radius: 10px; padding: 22px 24px; box-shadow: 0 1px 4px rgba(0,0,0,.07); margin-bottom: 20px; }
+.text-section h2 { font-size: 15px; font-weight: 700; color: #1a56db; margin-bottom: 14px; padding-bottom: 9px; border-bottom: 1px solid #e2e8f0; }
+.sub-item { margin-bottom: 13px; }
+.sub-item:last-child { margin-bottom: 0; }
+.sub-item h3 { font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 5px; }
+.sub-item p, .sub-item ul { font-size: 13px; color: #4b5563; line-height: 1.75; }
+.sub-item ul { padding-left: 18px; }
+.sub-item ul li { margin-bottom: 3px; }
+
+.note { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 4px; padding: 12px 0 4px; border-top: 1px solid #e2e8f0; }
+
+@media (max-width: 680px) {
+  .compare-strip { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>MY CCS Weekly Report &mdash; Irisding</h1>
+  <div class="meta">
+    <span>Jun 01 &ndash; Jun 07, 2026</span>
+    <span class="badge">Week 23</span>
+  </div>
+</div>
+
+<!-- Compare Strip -->
+<div class="compare-strip">
+  <div class="card">
+    <div class="label">总跟进量</div>
+    <div class="value">22,275</div>
+    <div class="sub">vs 上周 24,212</div>
+    <div class="wow down">&#9660; 8.0% WoW</div>
+  </div>
+  <div class="card">
+    <div class="label">总有效跟进量</div>
+    <div class="value">4,406</div>
+    <div class="sub">vs 上周 4,623</div>
+    <div class="wow down">&#9660; 4.7% WoW</div>
+  </div>
+  <div class="card">
+    <div class="label">总 PC</div>
+    <div class="value">1,252</div>
+    <div class="sub">vs 上周 1,734</div>
+    <div class="wow down">&#9660; 27.8% WoW</div>
+  </div>
+  <div class="card q2">
+    <div class="label">Q2 累计 PC</div>
+    <div class="value">15,573</div>
+    <div class="sub">2026-04-01 ~ 06-07</div>
+  </div>
+</div>
+
+<!-- Data Table -->
+<div class="section-card">
+  <div class="section-title">一、团队业绩数据</div>
+  <table>
+    <thead>
+      <tr>
+        <th class="col-name" rowspan="2">成员</th>
+        <th class="g1" colspan="4">跟进量</th>
+        <th class="g2" colspan="3">新 Leads 转化率</th>
+        <th class="g3" colspan="3">存量 Leads 转化率</th>
+      </tr>
+      <tr>
+        <th class="g1">总跟进量</th>
+        <th class="g1">有效跟进量</th>
+        <th class="g1" style="background:rgba(254,215,79,0.45);">总 PC</th>
+        <th class="g1" style="background:rgba(254,215,79,0.38);">Q2 PC</th>
+        <th class="g2">有效跟进率</th>
+        <th class="g2">分配转化率</th>
+        <th class="g2">有效跟进转化率</th>
+        <th class="g3">有效跟进率</th>
+        <th class="g3">分配转化率</th>
+        <th class="g3">有效跟进转化率</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="team-row">
+        <td>团队</td>
+        <td class="g1">22,275</td>
+        <td class="g1">4,406</td>
+        <td class="g1 pc">1,252</td>
+        <td class="g1-sep q2pc">15,573</td>
+        <td class="g2">63.0%</td>
+        <td class="g2">14.4%</td>
+        <td class="g2-sep">23.0%</td>
+        <td class="g3">60.3%</td>
+        <td class="g3">11.9%</td>
+        <td class="g3">20.6%</td>
+      </tr>
+      <tr>
+        <td>zhenconglim</td>
+        <td class="g1">2,726</td>
+        <td class="g1">616</td>
+        <td class="g1 pc">146</td>
+        <td class="g1-sep q2pc">1,806</td>
+        <td class="g2">67.2%</td>
+        <td class="g2">13.1%</td>
+        <td class="g2-sep lo">19.5%</td>
+        <td class="g3">62.3%</td>
+        <td class="g3 hi">15.5%</td>
+        <td class="g3 hi">25.8%</td>
+      </tr>
+      <tr>
+        <td>jordanliow</td>
+        <td class="g1">3,676</td>
+        <td class="g1 hi">779</td>
+        <td class="g1 pc hi">264</td>
+        <td class="g1-sep q2pc hi">3,083</td>
+        <td class="g2">60.0%</td>
+        <td class="g2">15.2%</td>
+        <td class="g2-sep">25.5%</td>
+        <td class="g3">64.5%</td>
+        <td class="g3">14.4%</td>
+        <td class="g3">22.5%</td>
+      </tr>
+      <tr>
+        <td>jackshenlee</td>
+        <td class="g1 hi">4,067</td>
+        <td class="g1">687</td>
+        <td class="g1 pc">245</td>
+        <td class="g1-sep q2pc">2,834</td>
+        <td class="g2">61.7%</td>
+        <td class="g2 hi">17.2%</td>
+        <td class="g2-sep hi">28.2%</td>
+        <td class="g3">55.3%</td>
+        <td class="g3">12.1%</td>
+        <td class="g3">23.8%</td>
+      </tr>
+      <tr>
+        <td>emelinlee</td>
+        <td class="g1 lo">2,660</td>
+        <td class="g1">568</td>
+        <td class="g1 pc">169</td>
+        <td class="g1-sep q2pc">2,022</td>
+        <td class="g2">66.3%</td>
+        <td class="g2">16.6%</td>
+        <td class="g2-sep">25.1%</td>
+        <td class="g3 hi">65.7%</td>
+        <td class="g3">10.2%</td>
+        <td class="g3">16.4%</td>
+      </tr>
+      <tr>
+        <td>mikilee</td>
+        <td class="g1">3,001</td>
+        <td class="g1">581</td>
+        <td class="g1 pc">166</td>
+        <td class="g1-sep q2pc">2,029</td>
+        <td class="g2 hi">67.5%</td>
+        <td class="g2">13.5%</td>
+        <td class="g2-sep">20.0%</td>
+        <td class="g3">59.6%</td>
+        <td class="g3">12.4%</td>
+        <td class="g3">21.5%</td>
+      </tr>
+      <tr>
+        <td>alexfoong</td>
+        <td class="g1">2,935</td>
+        <td class="g1 lo">535</td>
+        <td class="g1 pc">139</td>
+        <td class="g1-sep q2pc lo">1,851</td>
+        <td class="g2">64.9%</td>
+        <td class="g2">12.5%</td>
+        <td class="g2-sep lo">19.5%</td>
+        <td class="g3">60.5%</td>
+        <td class="g3">10.4%</td>
+        <td class="g3">18.1%</td>
+      </tr>
+      <tr>
+        <td>vaashini</td>
+        <td class="g1">3,210</td>
+        <td class="g1">640</td>
+        <td class="g1 pc lo">123</td>
+        <td class="g1-sep q2pc">1,948</td>
+        <td class="g2 lo">57.3%</td>
+        <td class="g2 lo">11.7%</td>
+        <td class="g2-sep">20.4%</td>
+        <td class="g3 lo">54.6%</td>
+        <td class="g3 lo">8.0%</td>
+        <td class="g3 lo">14.9%</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Trend Chart -->
+<div class="section-card">
+  <div class="section-title">转化率趋势（近 6 周）</div>
+  <div class="chart-wrap">
+    <canvas id="trendChart"></canvas>
+  </div>
+</div>
+
+<!-- 二、团队运营 -->
+<div class="text-section">
+  <h2>二、团队运营</h2>
+  <div class="sub-item">
+    <h3>出勤情况</h3>
+    <p>6.1 和 6.2 为公共假期，工作日全勤。</p>
+  </div>
+  <div class="sub-item">
+    <h3>培训情况</h3>
+    <p>团队完成美股 IPO 培训；个人完成 AML 培训。</p>
+  </div>
+  <div class="sub-item">
+    <h3>招聘进展</h3>
+    <p>暂无。</p>
+  </div>
+</div>
+
+<!-- 三、AI 应用 -->
+<div class="text-section">
+  <h2>三、AI 应用</h2>
+  <div class="sub-item">
+    <h3>AI 工具使用情况</h3>
+    <ul>
+      <li>优化 MY 转化客服周报，添加季度 PC 指标（个人季度累计 PC 列，含最高 / 最低高亮）</li>
+      <li>更新优化 MY 业务知识库到业务测试 Skill（moomoo-quiz），添加个人成绩趋势图</li>
+    </ul>
+  </div>
+  <div class="sub-item">
+    <h3>AI 应用计划</h3>
+    <ul>
+      <li>团队月实际出勤情况 Dashboard</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 四、下周计划 -->
+<div class="text-section">
+  <h2>四、下周计划</h2>
+  <div class="sub-item">
+    <ul>
+      <li>群发 WhatsApp 促新客转化，冲刺 KPI</li>
+      <li>转化客服业务的绩效方案宣导和员工 1v1</li>
+      <li>6.13（周六）与 mikilee 一起现场支援 MooSummit Event</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note">数据来源：来源A — mycm.futuoa.com 跟进量系统；来源B — BI Dashboard（us.data.futuoa.com）｜ 生成时间：2026-06-08</div>
+
+</div>
+
+<script>
+Chart.register(ChartDataLabels);
+const ctx = document.getElementById('trendChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['04/27','05/04','05/11','05/18','05/25','06/01'],
+    datasets: [
+      { label:'新 有效跟进率',           data:[63.2,63.9,59.9,60.7,60.5,63.0], borderColor:'#1456F0', backgroundColor:'rgba(20,86,240,0.07)',   tension:0.3, pointRadius:4, borderWidth:2, fill:false },
+      { label:'新 分配转化率',           data:[25.2,25.3,22.5,21.8,18.1,14.4], borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.07)',    tension:0.3, pointRadius:4, borderWidth:2, fill:false },
+      { label:'新 有效跟进转化率',       data:[40.8,40.0,38.1,36.3,30.2,23.0], borderColor:'#10b981', backgroundColor:'rgba(16,185,129,0.07)',  tension:0.3, pointRadius:4, borderWidth:2, fill:false },
+      { label:'存量 有效跟进率',         data:[52.6,54.7,54.7,51.6,59.6,60.3], borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,0.07)',  tension:0.3, pointRadius:4, borderWidth:2, fill:false },
+      { label:'存量 分配转化率',         data:[15.1,19.2,17.1,16.2,19.9,11.9], borderColor:'#14b8a6', backgroundColor:'rgba(20,184,166,0.07)', tension:0.3, pointRadius:4, borderWidth:2, fill:false },
+      { label:'存量 有效跟进转化率',     data:[29.4,36.0,31.9,32.0,34.5,20.6], borderColor:'#8b5cf6', backgroundColor:'rgba(139,92,246,0.07)',  tension:0.3, pointRadius:4, borderWidth:2, fill:false }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position:'bottom', labels:{ font:{size:11}, padding:14, usePointStyle:true } },
+      datalabels: {
+        font: { size:8.5 },
+        formatter: v => v + '%',
+        align: 'top',
+        offset: 3,
+        color: ctx => ctx.dataset.borderColor
+      }
+    },
+    scales: {
+      y: { ticks:{ callback: v => v+'%', font:{size:11} }, grid:{ color:'rgba(0,0,0,0.05)' } },
+      x: { ticks:{ font:{size:11} }, grid:{ display:false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
