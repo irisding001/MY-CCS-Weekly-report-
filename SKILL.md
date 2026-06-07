@@ -58,7 +58,7 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 
 **文件路径：** `C:/Users/irisding/Downloads/my_ccs_weekly_report_{send_date}.html`
 
-> `{send_date}` 为发送日期（即周一日期，格式 YYYYMMDD），而非周期开始日期。例如报告周期 2026-05-25~05-31，发送日 2026-06-01，文件名为 `my_ccs_weekly_report_20260602.html`。
+> `{send_date}` 为**报告生成当天日期**（格式 YYYYMMDD），非周期开始日期也非下周一。例如报告周期 2026-05-25~05-31，生成日 2026-06-01，文件名为 `my_ccs_weekly_report_20260601.html`。
 
 ### HTML 报告结构
 
@@ -83,9 +83,9 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 | 存量 Leads 转化率（G3）| 有效跟进率 → **分配转化率** → 有效跟进转化率 |
 
 **Q2 PC 说明：**
-- 数据来源：来源A，额外调用 `fetch_data.py --start 20260401 --end {本季末YYYYMMDD}`
-- `intervened_transferred_num` 对应 Q2 累计 PC（2026-04-01 ~ 季末最后一天）
-- Compare Strip 第4卡片文字：`Q2 累计 PC`，副文字：`2026-04-01 ~ {MM-DD}`，颜色 `#7c3aed`，无WoW箭头
+- 数据来源：来源A，额外调用 `fetch_data.py --start {季度起始_YYYYMMDD} --end {本周末_YYYYMMDD}`
+- `intervened_transferred_num` 对应季度累计 PC（Q2 = 0401，Q3 = 0701，依此类推）
+- Compare Strip 第4卡片文字：`Q2 累计 PC`，副文字：`2026-04-01 ~ {MM-DD}`（本周末），颜色 `#7c3aed`，无WoW箭头
 - 团队汇总行：Q2 PC 固定紫色（`#7c3aed`），不参与高亮
 - **个人行：各自填入季度累计 PC，并在个人行中做最高/最低高亮（最高 `#00c853` 绿，最低 `#e53e3e` 红），其余个人行保持紫色**
 
@@ -97,6 +97,11 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 **最高/最低高亮（文字颜色，无背景填充）：**
 - 最高值：`color: #00c853`（亮绿）
 - 最低值：`color: #e53e3e`（红）
+
+**表头黄色背景（⚠️ 仅 TH，不影响列数据底色）：**
+- 总PC 列的 `<th>`：`style="background:rgba(254,215,79,0.45);"`
+- Q2 PC 列的 `<th>`：`style="background:rgba(254,215,79,0.38);"`
+- 数据行 `<td>` 不加任何黄色背景，G1 浅蓝底色保持不变
 
 ### 趋势图规范
 
@@ -122,16 +127,40 @@ HTML 文件生成后，询问用户："HTML 周报已生成，是否同步推送
 ### 第一步：推送到 GitHub Pages
 
 ```bash
-# 复制文件到 repo（文件名用 send_date 格式）
+# 复制文件到 repo
 cp C:/Users/irisding/Downloads/my_ccs_weekly_report_{send_date}.html \
    C:/Users/irisding/MY-CCS-weekly-report/my_ccs_weekly_report_{send_date}.html
 
-# 更新 index.html 重定向
+# 更新 index.html 重定向（指向最新报告）
 # 内容：<meta http-equiv="refresh" content="0; url=my_ccs_weekly_report_{send_date}.html">
 
 cd C:/Users/irisding/MY-CCS-weekly-report
 git add my_ccs_weekly_report_{send_date}.html index.html
 git commit -m "add weekly report {send_date}"
+git push origin main
+```
+
+**同步更新 history.html（每次发布后必须执行）：**
+
+在 `C:/Users/irisding/MY-CCS-weekly-report/history.html` 顶部 `<div class="list">` 内插入新条目（第一条，并加 `badge-latest`；同时移除上一条的 `badge-latest`）：
+
+```html
+<a class="list-item" href="my_ccs_weekly_report_{send_date}.html">
+  <div class="item-left">
+    <div class="item-icon">📊</div>
+    <div>
+      <div class="item-title">{Mon DD} ~ {Mon DD}, 2026 <span class="badge-latest">最新</span></div>
+      <div class="item-sub">Week {N} &nbsp;·&nbsp; 发送日 {YYYY-MM-DD}</div>
+    </div>
+  </div>
+  <span class="item-arrow">›</span>
+</a>
+```
+
+```bash
+cd C:/Users/irisding/MY-CCS-weekly-report
+git add history.html
+git commit -m "update history page for {send_date}"
 git push origin main
 ```
 
