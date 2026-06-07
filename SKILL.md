@@ -86,7 +86,8 @@ description: MY CCS 团队周报生成器。通过对话逐板块引导用户填
 - 数据来源：来源A，额外调用 `fetch_data.py --start 20260401 --end {本季末YYYYMMDD}`
 - `intervened_transferred_num` 对应 Q2 累计 PC（2026-04-01 ~ 季末最后一天）
 - Compare Strip 第4卡片文字：`Q2 累计 PC`，副文字：`2026-04-01 ~ {MM-DD}`，颜色 `#7c3aed`，无WoW箭头
-- 表格中 Q2 PC 列不参与最高/最低高亮逻辑（只高亮最高/最低，其余保持紫色）
+- 团队汇总行：Q2 PC 固定紫色（`#7c3aed`），不参与高亮
+- **个人行：各自填入季度累计 PC，并在个人行中做最高/最低高亮（最高 `#00c853` 绿，最低 `#e53e3e` 红），其余个人行保持紫色**
 
 **CSS 列区域（Q2 PC列加入G1后）：**
 - G1（浅蓝）：`td:nth-child(2~5)` → G1 分隔线在 `td:nth-child(5)`
@@ -149,7 +150,7 @@ git push origin main
 lark-cli im +messages-send \
   --user-id ou_65c43706b75eeb31b763b24bd6b39d31 \
   --msg-type interactive \
-  --content '{"config":{"wide_screen_mode":true},"header":{"title":{"tag":"plain_text","content":"📊 MY CCS Weekly Report 已更新 | {MM-DD} ~ {MM-DD}"},"template":"blue"},"elements":[{"tag":"action","actions":[{"tag":"button","text":{"tag":"plain_text","content":"点击查看完整报告"},"type":"primary","url":"https://irisding001.github.io/MY-CCS-Weekly-report-/my_ccs_weekly_report_{send_date}.html"}]}]}' \
+  --content '{"config":{"wide_screen_mode":true},"header":{"title":{"tag":"plain_text","content":"📊 MY CCS Weekly Report 已更新 | {MM-DD} ~ {MM-DD}"},"template":"blue"},"elements":[{"tag":"action","actions":[{"tag":"button","text":{"tag":"plain_text","content":"点击查看完整报告"},"type":"primary","url":"https://irisding001.github.io/MY-CCS-Weekly-report-/my_ccs_weekly_report_{send_date}.html"},{"tag":"button","text":{"tag":"plain_text","content":"查看历史报告"},"type":"default","url":"https://irisding001.github.io/MY-CCS-Weekly-report-/history.html"}]}]}' \
   --as bot --profile cli_aa9ebc6861e55bc1
 ```
 
