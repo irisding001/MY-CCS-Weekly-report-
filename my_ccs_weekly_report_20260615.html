@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY CCS Weekly Report - Irisding | 2026-06-08 ~ 2026-06-14</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',Roboto,sans-serif;background:#f0f2f7;color:#222;min-height:100vh}
+.container{max-width:1020px;margin:0 auto;padding:20px 16px 48px}
+.header{background:linear-gradient(135deg,#1456F0 0%,#0b40d6 60%,#072db0 100%);color:white;border-radius:14px;padding:28px 32px;margin-bottom:16px}
+.header-title{font-size:22px;font-weight:700;letter-spacing:.3px}
+.header-meta{display:flex;align-items:center;gap:14px;margin-top:10px;font-size:14px;opacity:.9}
+.badge{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:3px 14px;font-size:13px;font-weight:600}
+.compare-strip{display:flex;gap:12px;margin-bottom:16px}
+.compare-card{flex:1;background:white;border-radius:10px;padding:15px 18px;box-shadow:0 1px 5px rgba(0,0,0,.07)}
+.c-label{font-size:12px;color:#888;margin-bottom:6px}
+.c-val{font-size:24px;font-weight:700;color:#111}
+.c-wow{font-size:12px;margin-top:4px;font-weight:600}
+.up{color:#00c853}.dn{color:#e53e3e}
+.card{background:white;border-radius:12px;padding:22px 24px;box-shadow:0 1px 5px rgba(0,0,0,.07);margin-bottom:16px}
+.sec-title{font-size:15px;font-weight:700;color:#1456F0;border-left:4px solid #1456F0;padding-left:10px;margin-bottom:18px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:940px}
+th{padding:8px 5px;text-align:center;font-size:12px}
+th.gh{background:#1456F0;color:white;font-weight:700}
+th.sh{background:#eef2ff;color:#444;font-weight:600;border-bottom:1px solid #d0daff}
+th.name-h{background:#eef2ff;color:#444;text-align:left;padding-left:12px;border-bottom:1px solid #d0daff}
+td{padding:7px 5px;text-align:center;border-bottom:1px solid #f2f2f2;font-size:12.5px}
+td.name{text-align:left;padding-left:12px;font-weight:500;color:#333}
+tr.team td{background:#fafbff;font-weight:700;border-top:2px solid #d0daff;border-bottom:2px solid #d0daff}
+.pc{color:#e67c00;font-weight:700}
+.bold{font-weight:700}
+.hi{color:#00c853;font-weight:700}
+.lo{color:#e53e3e;font-weight:700}
+/* G1 light blue cols 2-5 */
+tbody td:nth-child(2),tbody td:nth-child(3),tbody td:nth-child(4),tbody td:nth-child(5){background:#f0f4ff}
+tr.team td:nth-child(2),tr.team td:nth-child(3),tr.team td:nth-child(4),tr.team td:nth-child(5){background:#e2eaff}
+/* G2 light green cols 6-8 */
+tbody td:nth-child(6),tbody td:nth-child(7),tbody td:nth-child(8){background:#f0fdf6}
+tr.team td:nth-child(6),tr.team td:nth-child(7),tr.team td:nth-child(8){background:#d9f5e9}
+/* G3 light amber cols 9-11 */
+tbody td:nth-child(9),tbody td:nth-child(10),tbody td:nth-child(11){background:#fff8f0}
+tr.team td:nth-child(9),tr.team td:nth-child(10),tr.team td:nth-child(11){background:#ffe9d0}
+/* separators */
+tbody td:nth-child(5),tr.team td:nth-child(5){border-right:2px solid #c8d8ff}
+tbody td:nth-child(8),tr.team td:nth-child(8){border-right:2px solid #7dd9ac}
+/* sub-header tints (2nd thead row, no name col) */
+thead tr:nth-child(2) th:nth-child(1),thead tr:nth-child(2) th:nth-child(2),
+thead tr:nth-child(2) th:nth-child(3),thead tr:nth-child(2) th:nth-child(4){background:#e2eaff!important;border-bottom:2px solid #97b3ff}
+thead tr:nth-child(2) th:nth-child(4){border-right:2px solid #c8d8ff}
+thead tr:nth-child(2) th:nth-child(5),thead tr:nth-child(2) th:nth-child(6),
+thead tr:nth-child(2) th:nth-child(7){background:#d9f5e9!important;border-bottom:2px solid #7dd9ac}
+thead tr:nth-child(2) th:nth-child(7){border-right:2px solid #7dd9ac}
+thead tr:nth-child(2) th:nth-child(8),thead tr:nth-child(2) th:nth-child(9),
+thead tr:nth-child(2) th:nth-child(10){background:#ffe9d0!important;border-bottom:2px solid #f5b87a}
+.chart-wrap{position:relative;height:295px}
+.blk-label{font-size:12px;font-weight:700;color:#1456F0;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+.blk-body{font-size:13.5px;color:#555;line-height:1.85}
+.blk-body ul{padding-left:20px}
+.blk-body li{margin-bottom:3px}
+.divider{height:1px;background:#eef2ff;margin:14px 0}
+.note{text-align:center;font-size:11px;color:#aaa;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <div class="header-title">MY CCS Weekly Report — Irisding</div>
+  <div class="header-meta">
+    <span>Jun 8 ~ Jun 14, 2026</span>
+    <span class="badge">Week 24</span>
+  </div>
+</div>
+
+<!-- Compare Strip -->
+<div class="compare-strip">
+  <div class="compare-card">
+    <div class="c-label">总跟进量</div>
+    <div class="c-val">34,276</div>
+    <div class="c-wow up">▲ 53.9% vs last week</div>
+  </div>
+  <div class="compare-card">
+    <div class="c-label">总有效跟进量</div>
+    <div class="c-val">6,314</div>
+    <div class="c-wow up">▲ 43.3% vs last week</div>
+  </div>
+  <div class="compare-card">
+    <div class="c-label">总 PC</div>
+    <div class="c-val">2,022</div>
+    <div class="c-wow up">▲ 61.5% vs last week</div>
+  </div>
+  <div class="compare-card">
+    <div class="c-label">Q2 累计 PC</div>
+    <div class="c-val" style="color:#7c3aed">17,595</div>
+    <div class="c-wow" style="color:#7c3aed">2026-04-01 ~ 06-14</div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="card">
+  <div class="sec-title">一、团队业绩数据</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="name-h" rowspan="2">成员</th>
+          <th class="gh" colspan="4">跟进量</th>
+          <th class="gh" colspan="3">新 Leads 转化率</th>
+          <th class="gh" colspan="3">存量 Leads 转化率</th>
+        </tr>
+        <tr>
+          <th class="sh">总跟进量</th>
+          <th class="sh">总有效跟进量</th>
+          <th class="sh" style="background:rgba(254,215,79,0.45)!important">总 PC</th>
+          <th class="sh" style="background:rgba(254,215,79,0.38)!important;color:#7c3aed">Q2 PC</th>
+          <th class="sh">有效跟进率</th>
+          <th class="sh bold">分配转化率</th>
+          <th class="sh">有效跟进转化率</th>
+          <th class="sh">有效跟进率</th>
+          <th class="sh bold">分配转化率</th>
+          <th class="sh">有效跟进转化率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="team">
+          <td class="name">团队</td>
+          <td>34,276</td><td>6,314</td>
+          <td class="pc">2,022</td>
+          <td style="color:#7c3aed;font-weight:700">17,595</td>
+          <td>61.0%</td><td class="bold">15.6%</td><td>25.8%</td>
+          <td>58.0%</td><td class="bold">14.9%</td><td>26.3%</td>
+        </tr>
+        <!-- zhenconglim: Q2PC=min(2079) -->
+        <tr>
+          <td class="name">zhenconglim</td>
+          <td>5,560</td><td>1,041</td>
+          <td class="pc">273</td>
+          <td style="color:#e53e3e;font-weight:700">2,079</td>
+          <td>63.2%</td><td class="bold">15.6%</td><td>24.7%</td>
+          <td>59.5%</td><td class="bold">16.2%</td><td>28.3%</td>
+        </tr>
+        <!-- jordanliow: 有效跟进量=hi, 总PC=hi, Q2PC=hi -->
+        <tr>
+          <td class="name">jordanliow</td>
+          <td>5,734</td><td class="hi">1,178</td>
+          <td class="pc hi">417</td>
+          <td style="color:#00c853;font-weight:700">3,500</td>
+          <td>64.5%</td><td class="bold">17.0%</td><td>26.4%</td>
+          <td>58.7%</td><td class="bold">16.7%</td><td>28.6%</td>
+        </tr>
+        <!-- jackshenlee: 总跟进量=hi, 新有效跟进率=lo, 新有效跟进转化率=hi, 存量有效跟进率=lo -->
+        <tr>
+          <td class="name">jackshenlee</td>
+          <td class="hi">7,083</td><td>1,061</td>
+          <td class="pc">406</td>
+          <td style="color:#7c3aed;font-weight:700">3,240</td>
+          <td class="lo">54.4%</td><td class="bold">17.2%</td><td class="hi">32.0%</td>
+          <td class="lo">51.6%</td><td class="bold">14.6%</td><td>29.2%</td>
+        </tr>
+        <!-- emelinlee: 总跟进量=lo, 有效跟进量=lo, 总PC=lo, 新有效跟进率=hi, 新分配转化率=hi, 存量分配转化率=lo -->
+        <tr>
+          <td class="name">emelinlee</td>
+          <td class="lo">2,600</td><td class="lo">523</td>
+          <td class="pc lo">184</td>
+          <td style="color:#7c3aed;font-weight:700">2,206</td>
+          <td class="hi">67.4%</td><td class="bold hi">19.7%</td><td>29.3%</td>
+          <td>53.8%</td><td class="bold lo">12.2%</td><td>23.4%</td>
+        </tr>
+        <!-- mikilee: 存量有效跟进率=hi, 存量分配转化率=hi, 存量有效跟进转化率=hi -->
+        <tr>
+          <td class="name">mikilee</td>
+          <td>2,943</td><td>562</td>
+          <td class="pc">218</td>
+          <td style="color:#7c3aed;font-weight:700">2,247</td>
+          <td>66.4%</td><td class="bold">18.6%</td><td>28.5%</td>
+          <td class="hi">65.4%</td><td class="bold hi">19.1%</td><td class="hi">30.5%</td>
+        </tr>
+        <!-- alexfoong: 新分配转化率=lo, 新有效跟进转化率 neither (20.4, min=vaashini 19.9) -->
+        <tr>
+          <td class="name">alexfoong</td>
+          <td>5,403</td><td>923</td>
+          <td class="pc">275</td>
+          <td style="color:#7c3aed;font-weight:700">2,126</td>
+          <td>57.1%</td><td class="bold lo">11.4%</td><td>20.4%</td>
+          <td>59.1%</td><td class="bold">13.4%</td><td>23.2%</td>
+        </tr>
+        <!-- vaashini: 新有效跟进转化率=lo, 存量有效跟进转化率=lo -->
+        <tr>
+          <td class="name">vaashini</td>
+          <td>4,953</td><td>1,026</td>
+          <td class="pc">249</td>
+          <td style="color:#7c3aed;font-weight:700">2,197</td>
+          <td>61.4%</td><td class="bold">12.2%</td><td class="lo">19.9%</td>
+          <td>61.0%</td><td class="bold">12.5%</td><td class="lo">20.7%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Trend Chart -->
+<div class="card">
+  <div class="sec-title">近 6 周转化率趋势</div>
+  <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+</div>
+
+<!-- Section 2 -->
+<div class="card">
+  <div class="sec-title">二、团队运营</div>
+  <div class="blk-label">出勤情况</div>
+  <div class="blk-body">
+    <p>@mikilee、@emelinlee 均于 6.9 和 6.12 休假 2 天；@jackshenlee 于 6.12 休假半天。</p>
+  </div>
+  <div class="divider"></div>
+  <div class="blk-label">培训情况</div>
+  <div class="blk-body"><p>完成新客加码活动培训。</p></div>
+  <div class="divider"></div>
+  <div class="blk-label">其他工作</div>
+  <div class="blk-body">
+    <ul>
+      <li>@irisding、@mikilee 现场协助 6.13 MooSummit event</li>
+      <li>整理输出转化客服招聘中的常用面试问题</li>
+    </ul>
+  </div>
+  <div class="divider"></div>
+  <div class="blk-label">招聘进展</div>
+  <div class="blk-body"><p>暂无</p></div>
+</div>
+
+<!-- Section 3 -->
+<div class="card">
+  <div class="sec-title">三、AI 应用</div>
+  <div class="blk-label">AI 工具使用情况</div>
+  <div class="blk-body">
+    <ul><li>完成月出勤 Dashboard 自动化生成</li></ul>
+  </div>
+  <div class="divider"></div>
+  <div class="blk-label">AI 应用计划</div>
+  <div class="blk-body">
+    <ul><li>新人入职 Onboarding Checklist 完成进度自动化追踪</li></ul>
+  </div>
+</div>
+
+<!-- Section 4 -->
+<div class="card">
+  <div class="sec-title">四、下周计划</div>
+  <div class="blk-body">
+    <ul>
+      <li>完成 MY 客经团队绩效新方案组内宣导，确认转岗名单，收集反馈，推进薪资 review 或离职程序</li>
+      <li>完成新人入职 Onboarding Checklist 与试用期标准</li>
+      <li>更新新业务流 SOP 与话术</li>
+      <li>整理大马地区转化客服团队可降噪耳机需求，拉会推进采购流程</li>
+      <li>参考咨询组考核指标，输出转化组团队日常管理指标体系</li>
+    </ul>
+  </div>
+</div>
+
+<div class="note">数据来源：来源A — mycm.futuoa.com（跟进量）｜ 来源B — us.data.futuoa.com（转化率）｜ 生成日期：2026-06-15</div>
+
+</div>
+<script>
+Chart.register(ChartDataLabels);
+const ctx = document.getElementById('trendChart').getContext('2d');
+const labels = ['May 4','May 11','May 18','May 25','Jun 1','Jun 8'];
+const mk = (label, data, color) => ({
+  label, data,
+  borderColor: color, backgroundColor: color,
+  pointBackgroundColor: color, pointRadius: 4, pointHoverRadius: 6,
+  tension: 0.35, fill: false
+});
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      mk('新 有效跟进率',       [63.9,60.0,60.7,60.2,58.8,61.0], '#1456F0'),
+      mk('新 分配转化率',       [25.3,22.6,22.5,21.4,18.4,15.6], '#ef4444'),
+      mk('新 有效跟进转化率',   [40.0,38.3,37.5,35.9,31.5,25.8], '#10b981'),
+      mk('存量 有效跟进率',     [54.7,54.7,51.6,59.6,60.6,58.0], '#f59e0b'),
+      mk('存量 分配转化率',     [19.2,17.1,16.2,21.6,18.6,14.9], '#14b8a6'),
+      mk('存量 有效跟进转化率', [36.0,32.0,32.1,37.4,32.0,26.3], '#8b5cf6')
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position:'bottom', labels:{ boxWidth:12, padding:14, font:{size:11} } },
+      datalabels: {
+        align:'top', offset:2,
+        font:{ size:8.5, weight:'600' },
+        formatter: v => v.toFixed(1)+'%',
+        color: ctx => ctx.dataset.borderColor
+      }
+    },
+    scales: {
+      y: { ticks:{ callback: v => v+'%', font:{size:11} }, grid:{ color:'rgba(0,0,0,.05)' } },
+      x: { ticks:{ font:{size:11} }, grid:{ display:false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
