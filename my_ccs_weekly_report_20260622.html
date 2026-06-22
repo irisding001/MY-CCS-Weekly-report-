@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY CCS Weekly Report - Irisding | Jun 15–21, 2026 | Week 25</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f6fa; color: #222; font-size: 13px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #1456F0 0%, #0e3ec2 100%); color: white; border-radius: 12px; padding: 24px 32px; margin-bottom: 20px; }
+  .header h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .header .sub { font-size: 13px; opacity: 0.85; }
+
+  /* Compare Strip */
+  .compare-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .compare-card { background: white; border-radius: 10px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .compare-card .label { font-size: 11px; color: #888; margin-bottom: 6px; }
+  .compare-card .value { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+  .compare-card .sub { font-size: 11px; color: #999; }
+  .compare-card .wow { font-size: 12px; font-weight: 600; margin-top: 4px; }
+  .wow.up { color: #00c853; }
+  .wow.down { color: #e53e3e; }
+  .card-blue .value { color: #1456F0; }
+  .card-orange .value { color: #f97316; }
+  .card-teal .value { color: #14b8a6; }
+  .card-purple .value { color: #7c3aed; }
+
+  /* Table */
+  .section { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .section-title { font-size: 14px; font-weight: 700; color: #333; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #f0f0f0; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: #f8f9fc; font-weight: 600; padding: 8px 10px; text-align: center; border: 1px solid #e8eaf0; white-space: nowrap; }
+  td { padding: 7px 10px; text-align: center; border: 1px solid #e8eaf0; }
+  tr:hover td { background: #fafbff; }
+
+  /* Group headers */
+  .gh-g1 { background: #dbeafe !important; color: #1e40af; }
+  .gh-g2 { background: #dcfce7 !important; color: #166534; }
+  .gh-g3 { background: #ffedd5 !important; color: #9a3412; }
+
+  /* Column area tinting */
+  td.g1 { background: rgba(219,234,254,0.25); }
+  td.g2 { background: rgba(220,252,231,0.25); }
+  td.g3 { background: rgba(255,237,213,0.25); }
+
+  /* Separator right border */
+  td.sep, th.sep { border-right: 2px solid #c0c8e0 !important; }
+
+  /* PC column (orange) */
+  td.pc { color: #f97316; font-weight: 600; }
+  th.pc { background: rgba(254,215,79,0.45) !important; }
+
+  /* Q2 PC column (purple) */
+  td.q2pc { color: #7c3aed; font-weight: 600; }
+  th.q2pc { background: rgba(254,215,79,0.38) !important; }
+
+  /* Highlight: max/min (text color only, no bg) */
+  .hi-max { color: #00c853 !important; font-weight: 700; }
+  .hi-min { color: #e53e3e !important; font-weight: 700; }
+
+  /* Team row */
+  tr.team-row td { font-weight: 700; background: #f0f4ff !important; }
+
+  /* Chart */
+  .chart-wrap { position: relative; height: 300px; }
+
+  /* Qualitative sections */
+  .qual-section { margin-bottom: 12px; }
+  .qual-title { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 8px; }
+  .qual-sub { font-size: 12px; font-weight: 600; color: #555; margin: 8px 0 4px; }
+  .qual-content { font-size: 12px; color: #444; line-height: 1.7; padding-left: 12px; }
+  .qual-content li { margin-bottom: 3px; }
+
+  /* Note */
+  .note { font-size: 11px; color: #aaa; margin-top: 12px; padding-top: 10px; border-top: 1px solid #f0f0f0; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>📊 MY CCS Weekly Report — Irisding</h1>
+    <div class="sub">Jun 15 – Jun 21, 2026 &nbsp;|&nbsp; Week 25 &nbsp;|&nbsp; 发送日 2026-06-22</div>
+  </div>
+
+  <!-- Compare Strip -->
+  <div class="compare-strip">
+    <div class="compare-card card-blue">
+      <div class="label">总跟进量</div>
+      <div class="value">26,942</div>
+      <div class="sub">Jun 15–21, 2026</div>
+      <div class="wow down">▼ 21.4% WoW</div>
+    </div>
+    <div class="compare-card card-orange">
+      <div class="label">总有效跟进量</div>
+      <div class="value">5,080</div>
+      <div class="sub">Jun 15–21, 2026</div>
+      <div class="wow down">▼ 19.5% WoW</div>
+    </div>
+    <div class="compare-card card-teal">
+      <div class="label">总 PC（外呼+WA去重）</div>
+      <div class="value">1,669</div>
+      <div class="sub">Jun 15–21, 2026</div>
+      <div class="wow down">▼ 17.5% WoW</div>
+    </div>
+    <div class="compare-card card-purple">
+      <div class="label">Q2 累计 PC</div>
+      <div class="value">19,264</div>
+      <div class="sub">2026-04-01 ~ 06-21</div>
+    </div>
+  </div>
+
+  <!-- Performance Table -->
+  <div class="section">
+    <div class="section-title">一、团队 & 个人业绩数据</div>
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2" style="min-width:90px;">成员</th>
+          <th colspan="4" class="gh-g1">跟进量</th>
+          <th colspan="3" class="gh-g2">新 Leads 转化率</th>
+          <th colspan="3" class="gh-g3">存量 Leads 转化率</th>
+        </tr>
+        <tr>
+          <th class="g1">总跟进量</th>
+          <th class="g1">有效跟进量</th>
+          <th class="g1 pc">总 PC</th>
+          <th class="g1 q2pc sep">Q2 PC</th>
+          <th class="g2">有效跟进率</th>
+          <th class="g2">分配转化率</th>
+          <th class="g2 sep">有效跟进转化率</th>
+          <th class="g3">有效跟进率</th>
+          <th class="g3">分配转化率</th>
+          <th class="g3">有效跟进转化率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Team row -->
+        <tr class="team-row">
+          <td>团队汇总</td>
+          <td class="g1">26,942</td>
+          <td class="g1">5,080</td>
+          <td class="g1 pc">1,669</td>
+          <td class="g1 q2pc sep">19,264</td>
+          <td class="g2">60.4%</td>
+          <td class="g2">13.3%</td>
+          <td class="g2 sep">22.5%</td>
+          <td class="g3">60.2%</td>
+          <td class="g3">16.9%</td>
+          <td class="g3">29.2%</td>
+        </tr>
+        <!-- zhenconglim -->
+        <tr>
+          <td>zhenconglim</td>
+          <td class="g1">4,456</td>
+          <td class="g1">872</td>
+          <td class="g1 pc">197</td>
+          <td class="g1 q2pc sep hi-min">2,276</td>
+          <td class="g2">60.3%</td>
+          <td class="g2 hi-min">9.5%</td>
+          <td class="g2 sep hi-min">15.9%</td>
+          <td class="g3">59.2%</td>
+          <td class="g3">14.8%</td>
+          <td class="g3">26.1%</td>
+        </tr>
+        <!-- jordanliow -->
+        <tr>
+          <td>jordanliow</td>
+          <td class="g1">4,434</td>
+          <td class="g1 hi-max">999</td>
+          <td class="g1 pc hi-max">368</td>
+          <td class="g1 q2pc sep hi-max">3,868</td>
+          <td class="g2 hi-max" style="color:#00c853!important;font-weight:700;">67.9%</td>
+          <td class="g2 hi-max" style="color:#00c853!important;font-weight:700;">17.7%</td>
+          <td class="g2 sep hi-max" style="color:#00c853!important;font-weight:700;">26.1%</td>
+          <td class="g3 hi-max" style="color:#00c853!important;font-weight:700;">65.8%</td>
+          <td class="g3">21.0%</td>
+          <td class="g3">32.2%</td>
+        </tr>
+        <!-- jackshenlee -->
+        <tr>
+          <td>jackshenlee</td>
+          <td class="g1 hi-max">5,833</td>
+          <td class="g1">978</td>
+          <td class="g1 pc">350</td>
+          <td class="g1 q2pc sep" style="color:#7c3aed;font-weight:600;">3,590</td>
+          <td class="g2">57.2%</td>
+          <td class="g2">14.5%</td>
+          <td class="g2 sep">26.0%</td>
+          <td class="g3">57.6%</td>
+          <td class="g3">16.8%</td>
+          <td class="g3">31.1%</td>
+        </tr>
+        <!-- emelinlee -->
+        <tr>
+          <td>emelinlee</td>
+          <td class="g1">2,767</td>
+          <td class="g1">573</td>
+          <td class="g1 pc">180</td>
+          <td class="g1 q2pc sep" style="color:#7c3aed;font-weight:600;">2,386</td>
+          <td class="g2">64.7%</td>
+          <td class="g2">12.0%</td>
+          <td class="g2 sep">19.0%</td>
+          <td class="g3">64.2%</td>
+          <td class="g3">16.7%</td>
+          <td class="g3">26.6%</td>
+        </tr>
+        <!-- mikilee -->
+        <tr>
+          <td>mikilee</td>
+          <td class="g1 hi-min">2,001</td>
+          <td class="g1 hi-min">400</td>
+          <td class="g1 pc hi-min">147</td>
+          <td class="g1 q2pc sep" style="color:#7c3aed;font-weight:600;">2,394</td>
+          <td class="g2 hi-max" style="color:#00c853!important;font-weight:700;">68.7%</td>
+          <td class="g2 hi-max" style="color:#00c853!important;font-weight:700;">18.6%</td>
+          <td class="g2 sep hi-max" style="color:#00c853!important;font-weight:700;">27.9%</td>
+          <td class="g3">62.5%</td>
+          <td class="g3 hi-max" style="color:#00c853!important;font-weight:700;">21.7%</td>
+          <td class="g3 hi-max" style="color:#00c853!important;font-weight:700;">37.3%</td>
+        </tr>
+        <!-- alexfoong -->
+        <tr>
+          <td>alexfoong</td>
+          <td class="g1">4,847</td>
+          <td class="g1">750</td>
+          <td class="g1 pc">235</td>
+          <td class="g1 q2pc sep" style="color:#7c3aed;font-weight:600;">2,361</td>
+          <td class="g2 hi-min">56.4%</td>
+          <td class="g2">9.9%</td>
+          <td class="g2 sep">18.3%</td>
+          <td class="g3 hi-min">55.6%</td>
+          <td class="g3 hi-min">12.9%</td>
+          <td class="g3 hi-min">23.5%</td>
+        </tr>
+        <!-- vaashini -->
+        <tr>
+          <td>vaashini</td>
+          <td class="g1">2,604</td>
+          <td class="g1">508</td>
+          <td class="g1 pc">192</td>
+          <td class="g1 q2pc sep" style="color:#7c3aed;font-weight:600;">2,389</td>
+          <td class="g2 hi-min">50.2%</td>
+          <td class="g2">12.6%</td>
+          <td class="g2 sep">25.6%</td>
+          <td class="g3">56.6%</td>
+          <td class="g3">15.5%</td>
+          <td class="g3">28.3%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6-Week Trend Chart -->
+  <div class="section">
+    <div class="section-title">团队转化率近6周趋势</div>
+    <div class="chart-wrap">
+      <canvas id="trendChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Qualitative Sections -->
+  <div class="section">
+    <div class="qual-title">二、团队运营</div>
+
+    <div class="qual-sub">📋 出勤情况</div>
+    <div class="qual-content">
+      <ul>
+        <li>mikilee 休假 2 天（6.18–6.19）</li>
+        <li>vaashini 休假 2 天（6.18–6.19）</li>
+        <li>emelinlee 休假 1 天（6.18）</li>
+      </ul>
+    </div>
+
+    <div class="qual-sub">📚 培训情况</div>
+    <div class="qual-content">暂无</div>
+
+    <div class="qual-sub">🔧 其他工作</div>
+    <div class="qual-content">
+      <ul>
+        <li>完成组内转岗意向确认，7人均同意转岗</li>
+        <li>完成下周工作重点宣导和提醒</li>
+      </ul>
+    </div>
+
+    <div class="qual-sub">🧑‍💼 招聘进展</div>
+    <div class="qual-content">面试 1 人，未通过一面</div>
+  </div>
+
+  <div class="section">
+    <div class="qual-title">三、AI 应用</div>
+
+    <div class="qual-sub">🤖 使用情况</div>
+    <div class="qual-content">优化目前的 Skill</div>
+
+    <div class="qual-sub">🔮 应用计划</div>
+    <div class="qual-content">新人 Onboarding Checklist 的进度追踪</div>
+  </div>
+
+  <div class="section">
+    <div class="qual-title">四、下周计划</div>
+    <div class="qual-content">
+      <ul>
+        <li>完成转化客服的业务培训和 7 月份班次安排</li>
+        <li>梳理新业务模式的业务 SOP 和话术并完成培训</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    数据来源：Source A — mycm.futuoa.com（跟进量数据）；Source B — us.data.futuoa.com BI Dashboard（转化率数据）。报告生成日期：2026-06-22。
+  </div>
+
+</div>
+
+<script>
+Chart.register(ChartDataLabels);
+
+const ctx = document.getElementById('trendChart').getContext('2d');
+const labels = ['May 11–17', 'May 18–24', 'May 25–31', 'Jun 1–7', 'Jun 8–14', 'Jun 15–21'];
+
+const datasets = [
+  {
+    label: '新 有效跟进率',
+    data: [59.9, 60.7, 60.2, 58.9, 59.4, 60.4],
+    borderColor: '#1456F0', backgroundColor: '#1456F0',
+    tension: 0.3, pointRadius: 4, borderWidth: 2,
+  },
+  {
+    label: '新 分配转化率',
+    data: [22.6, 22.6, 22.1, 21.4, 18.6, 13.3],
+    borderColor: '#ef4444', backgroundColor: '#ef4444',
+    tension: 0.3, pointRadius: 4, borderWidth: 2,
+  },
+  {
+    label: '新 有效跟进转化率',
+    data: [38.3, 37.7, 37.2, 36.6, 31.6, 22.5],
+    borderColor: '#10b981', backgroundColor: '#10b981',
+    tension: 0.3, pointRadius: 4, borderWidth: 2,
+  },
+  {
+    label: '存量 有效跟进率',
+    data: [54.7, 51.6, 59.6, 60.6, 58.1, 60.2],
+    borderColor: '#f59e0b', backgroundColor: '#f59e0b',
+    tension: 0.3, pointRadius: 4, borderWidth: 2,
+  },
+  {
+    label: '存量 分配转化率',
+    data: [17.1, 16.3, 21.8, 20.1, 19.3, 16.9],
+    borderColor: '#14b8a6', backgroundColor: '#14b8a6',
+    tension: 0.3, pointRadius: 4, borderWidth: 2,
+  },
+  {
+    label: '存量 有效跟进转化率',
+    data: [32.0, 32.3, 37.8, 34.7, 34.0, 29.2],
+    borderColor: '#8b5cf6', backgroundColor: '#8b5cf6',
+    tension: 0.3, pointRadius: 4, borderWidth: 2,
+  },
+];
+
+new Chart(ctx, {
+  type: 'line',
+  data: { labels, datasets },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { font: { size: 11 }, padding: 16, usePointStyle: true },
+      },
+      datalabels: {
+        align: 'top',
+        anchor: 'center',
+        font: { size: 8.5 },
+        formatter: v => v + '%',
+        color: ctx2 => ctx2.dataset.borderColor,
+      },
+    },
+    scales: {
+      y: {
+        ticks: { callback: v => v + '%', font: { size: 10 } },
+        grid: { color: '#f0f0f0' },
+      },
+      x: {
+        ticks: { font: { size: 10 } },
+        grid: { display: false },
+      },
+    },
+  },
+});
+</script>
+</body>
+</html>
